@@ -21,15 +21,6 @@ Atualmente estou expandindo meus conhecimentos em **Ciência da Computação** e
 ✔️ Melhorar minhas habilidades em **HTML, CSS e JavaScript**  
 ✔️ Criar um portfólio acessível para mostrar meus projetos e minha evolução
 
-## 📸 Demonstração
-![Preview do Portfólio](https://i.imgur.com/m6d6a7b.png)  
-*(Coloque aqui um print do seu site para deixar o README mais visual)*
-
-## 🚀 Próximos Passos
-- Adicionar novos projetos ao portfólio  
-- Incluir certificações e experiências acadêmicas  
-- Evoluir para frameworks modernos como **React**
-
 ## 📫 Contato
 📍 Barbacena - MG, Brasil  
 💼 LinkedIn: [linkedin.com/in/vinicius-da-motta-campos-a24bab240](https://www.linkedin.com/in/vinicius-da-motta-campos-a24bab240)  
