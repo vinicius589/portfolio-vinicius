@@ -61,7 +61,7 @@ button,a{-webkit-tap-highlight-color:transparent}
 .mini-caption{font:800 7px Manrope,sans-serif;letter-spacing:.1em;color:#608478}
 .mini-stats{display:flex;gap:7px;margin:12px 0}.mini-stats i{height:27px;flex:1;background:white;border:1px solid #e3eceb;border-radius:5px;position:relative}
 .mini-stats i:after{content:"";position:absolute;left:6px;top:6px;width:13px;height:4px;background:#b5e9db;border-radius:2px}.mini-lines{display:grid;gap:5px}.mini-lines b{height:4px;width:91%;background:#dbe6e8;border-radius:4px}.mini-lines b:nth-child(2){width:73%}.mini-lines b:nth-child(3){width:82%}
-.project-nexodesk .project-number{color:#0f8274}
+.project-checkti .project-number{color:#0f8274}
 .featured-grid .project-card .text-link{margin-top:12px}
 .secondary-project-heading{margin:52px 0 18px}.secondary-project-heading h3{margin:0;font:800 clamp(1.3rem,2.3vw,1.8rem) Manrope,sans-serif;letter-spacing:-.04em;color:var(--ink)}
 .secondary-projects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
