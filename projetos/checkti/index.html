@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CheckTI: checklist simples para organizar os primeiros testes de suporte técnico.">
+  <title>CheckTI | Guia de primeiros testes</title>
+  <style>
+    :root {
+      --navy: #183047;
+      --teal: #167d72;
+      --teal-light: #e4f6f1;
+      --paper: #f5f7f8;
+      --text: #263748;
+      --muted: #6c7b88;
+      --line: #dde5e9;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--paper);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    .topbar {
+      padding: 18px 24px;
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .topbar-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand { font-size: 20px; font-weight: 800; letter-spacing: -.5px; }
+    .brand span { color: #76d5c0; }
+    .top-note { font-size: 12px; color: #c3d2dc; }
+
+    main { max-width: 980px; margin: 0 auto; padding: 42px 22px 58px; }
+    .eyebrow { margin: 0 0 9px; color: var(--teal); font-size: 11px; font-weight: 800; letter-spacing: 1.6px; }
+    h1 { margin: 0; color: var(--navy); font-size: clamp(32px, 5vw, 46px); line-height: 1.12; letter-spacing: -1.4px; }
+    .intro { max-width: 660px; margin: 15px 0 28px; color: var(--muted); font-size: 16px; }
+    .panel { padding: 23px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); box-shadow: 0 8px 24px rgba(24,48,71,.04); }
+    .panel h2 { margin: 0 0 7px; color: var(--navy); font-size: 19px; }
+    .hint { margin: 0 0 18px; color: var(--muted); font-size: 13px; }
+
+    .problem-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .problem {
+      min-height: 142px; padding: 16px 13px; text-align: left;
+      background: white; color: var(--text); border: 1px solid var(--line);
+      border-radius: 11px; cursor: pointer; transition: .15s ease;
+    }
+    .problem:hover { border-color: #8bcfc0; transform: translateY(-2px); }
+    .problem[aria-pressed="true"] { border: 2px solid var(--teal); background: #f0fbf7; padding: 15px 12px; }
+    .problem-icon { display: block; margin-bottom: 12px; font-size: 25px; }
+    .problem strong { display: block; font-size: 14px; }
+    .problem small { display: block; margin-top: 5px; color: var(--muted); font-size: 11px; line-height: 1.4; }
+
+    .check-panel { margin-top: 20px; }
+    .check-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; }
+    .check-header p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+    .count { flex: 0 0 auto; padding: 6px 10px; border-radius: 999px; background: var(--teal-light); color: var(--teal); font-size: 12px; font-weight: 700; }
+    .progress-track { height: 7px; margin: 18px 0 20px; overflow: hidden; border-radius: 8px; background: #eaf0f2; }
+    .progress-bar { width: 0; height: 100%; background: var(--teal); transition: width .2s ease; }
+    .steps { display: grid; gap: 9px; }
+    .step {
+      display: flex; align-items: flex-start; gap: 12px; padding: 13px 14px;
+      border: 1px solid #e9eef1; border-radius: 9px; background: #fcfdfd;
+      cursor: pointer;
+    }
+    .step input { width: 17px; height: 17px; margin: 2px 0 0; accent-color: var(--teal); flex: 0 0 auto; }
+    .step strong { display: block; font-size: 14px; }
+    .step small { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; }
+    .step.done { background: #f3fbf8; }
+    .step.done strong { color: #66837c; text-decoration: line-through; }
+    .feedback { margin-top: 16px; padding: 13px 15px; border-radius: 9px; color: #31564e; background: #eaf8f3; font-size: 13px; }
+    .feedback strong { display: block; margin-bottom: 2px; }
+    .actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .btn { border: 0; border-radius: 8px; padding: 11px 15px; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .btn-primary { background: var(--teal); color: white; }
+    .btn-primary:hover { background: #0e665e; }
+    .btn-plain { background: #edf2f4; color: #435669; }
+    .btn-plain:hover { background: #e3eaed; }
+    .warning { display: flex; gap: 12px; margin-top: 18px; padding: 15px 16px; border: 1px solid #f0dfbb; border-radius: 10px; background: #fff9ea; color: #765f32; font-size: 12px; }
+    .warning b { display: block; margin-bottom: 2px; }
+    .footer { margin-top: 28px; color: #84919c; text-align: center; font-size: 11px; }
+    .footer a { color: var(--teal); text-decoration: none; font-weight: 700; }
+
+    @media (max-width: 760px) {
+      .problem-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      main { padding-top: 30px; }
+    }
+    @media (max-width: 430px) {
+      .topbar { padding: 15px 17px; }
+      .top-note { display: none; }
+      main { padding-inline: 14px; }
+      .panel { padding: 16px; }
+      .problem { min-height: 130px; }
+      .check-header { flex-direction: column; }
+      .actions { align-items: stretch; flex-direction: column; }
+      .actions button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Check<span>TI</span></div>
+      <div class="top-note">GUIA DE PRIMEIROS TESTES · PROJETO DE ESTUDO</div>
+    </div>
+  </header>
+
+  <main>
+    <p class="eyebrow">SUPORTE TÉCNICO · PASSO A PASSO</p>
+    <h1>Vamos começar pelo básico.</h1>
+    <p class="intro">Escolha o problema e siga uma lista simples de verificações. A ideia é ajudar a organizar os primeiros testes antes de decidir o próximo passo.</p>
+
+    <section class="panel" aria-labelledby="problem-title">
+      <h2 id="problem-title">O que está acontecendo?</h2>
+      <p class="hint">Selecione uma opção para ver as verificações iniciais.</p>
+      <div class="problem-grid">
+        <button class="problem" type="button" data-problem="power" aria-pressed="false">
+          <span class="problem-icon" aria-hidden="true">🔌</span>
+          <strong>PC não liga</strong>
+          <small>Energia, cabos e sinais de funcionamento</small>
+        </button>
+        <button class="problem" type="button" data-problem="slow" aria-pressed="false">
+          <span class="problem-icon" aria-hidden="true">🐢</span>
+          <strong>PC está lento</strong>
+          <small>Reinício, espaço e programas abertos</small>
+        </button>
+        <button class="problem" type="button" data-problem="network" aria-pressed="false">
+          <span class="problem-icon" aria-hidden="true">🌐</span>
+          <strong>Sem internet</strong>
+          <small>Conexão, Wi-Fi e roteador</small>
+        </button>
+        <button class="problem" type="button" data-problem="sound" aria-pressed="false">
+          <span class="problem-icon" aria-hidden="true">🔊</span>
+          <strong>Sem áudio</strong>
+          <small>Volume e dispositivo de saída</small>
+        </button>
+      </div>
+    </section>
+
+    <section class="panel check-panel" id="check-panel" aria-live="polite">
+      <div class="check-header">
+        <div>
+          <h2 id="check-title">Escolha um problema acima</h2>
+          <p id="check-description">As etapas aparecerão aqui, uma de cada vez.</p>
+        </div>
+        <span class="count" id="step-count">0 de 0 concluídas</span>
+      </div>
+      <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progress-bar"></div></div>
+      <div class="steps" id="steps">
+        <p class="hint">Não precisa adivinhar a causa do defeito. Comece pelas verificações mais simples e seguras.</p>
+      </div>
+      <div class="feedback" id="feedback">
+        <strong>Uma etapa de cada vez</strong>
+        Marque o que você já verificou para acompanhar o andamento.
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-plain" id="reset">Limpar marcações</button>
+        <button type="button" class="btn btn-primary" id="finish">Finalizar checklist</button>
+      </div>
+    </section>
+
+    <aside class="warning">
+      <span aria-hidden="true">⚠️</span>
+      <div><b>Segurança em primeiro lugar</b>Não abra a fonte de alimentação nem mexa em componentes internos com o computador ligado. Se houver cheiro de queimado, líquido, faíscas ou cabos danificados, desligue da tomada quando for seguro e procure assistência qualificada.</div>
+    </aside>
+
+    <p class="footer">CheckTI é um projeto educacional de <strong>Vinicius da Motta Campos</strong> · <a href="../../">Voltar ao portfólio</a></p>
+  </main>
+
+  <script>
+    // Cada problema tem uma lista curta de verificações iniciais.
+    const problemas = {
+      power: {
+        titulo: "O computador não liga",
+        descricao: "Confira primeiro a alimentação elétrica, sem abrir o equipamento.",
+        passos: [
+          { titulo: "Confira o cabo de energia", detalhe: "Veja se o cabo está encaixado corretamente no computador e na tomada." },
+          { titulo: "Teste a tomada", detalhe: "Se for seguro, teste a tomada com outro aparelho que você sabe que funciona." },
+          { titulo: "Observe as luzes e os sons", detalhe: "Anote se alguma luz acende, se as ventoinhas giram ou se há algum sinal ao apertar o botão." },
+          { titulo: "Se for notebook, confira o carregador", detalhe: "Verifique se o carregador está bem conectado e se há algum indicador de carga." }
+        ]
+      },
+      slow: {
+        titulo: "O computador está lento",
+        descricao: "Comece com verificações simples antes de instalar ou remover qualquer coisa.",
+        passos: [
+          { titulo: "Reinicie o computador", detalhe: "Salve seus arquivos e reinicie para encerrar processos que possam estar travados." },
+          { titulo: "Confira o espaço livre", detalhe: "Veja se a unidade do sistema tem espaço disponível." },
+          { titulo: "Observe os programas abertos", detalhe: "Feche apenas os aplicativos que você reconhece e não está usando." },
+          { titulo: "Anote quando a lentidão acontece", detalhe: "Por exemplo: ao iniciar, abrir um programa ou acessar a internet." }
+        ]
+      },
+      network: {
+        titulo: "O computador está sem internet",
+        descricao: "Descubra se o problema está só neste computador ou em outros dispositivos também.",
+        passos: [
+          { titulo: "Confira a conexão", detalhe: "Verifique se o Wi-Fi está ligado ou se o cabo de rede está conectado." },
+          { titulo: "Teste outro site ou aplicativo", detalhe: "Isso ajuda a identificar se a falha ocorre em apenas um serviço." },
+          { titulo: "Compare com outro dispositivo", detalhe: "Se possível, verifique se um celular ou outro computador também está sem conexão." },
+          { titulo: "Observe as luzes do roteador", detalhe: "Anote as luzes ou mensagens de erro. Reinicie o roteador apenas se tiver autorização." }
+        ]
+      },
+      sound: {
+        titulo: "O computador está sem áudio",
+        descricao: "Confira o volume e o dispositivo selecionado antes de alterar configurações avançadas.",
+        passos: [
+          { titulo: "Confira o volume", detalhe: "Veja se o sistema e o aplicativo não estão no mudo." },
+          { titulo: "Confira a saída de áudio", detalhe: "Selecione o alto-falante ou fone correto nas configurações de som." },
+          { titulo: "Confira a conexão do fone ou caixa", detalhe: "Se usar um dispositivo externo, confirme se está conectado e ligado." },
+          { titulo: "Teste outro áudio", detalhe: "Use outro vídeo ou arquivo para conferir se o problema não está no conteúdo original." }
+        ]
+      }
+    };
+
+    let problemaAtual = null;
+    let concluidos = [];
+
+    const botoesProblema = document.querySelectorAll("[data-problem]");
+    const titulo = document.getElementById("check-title");
+    const descricao = document.getElementById("check-description");
+    const passosContainer = document.getElementById("steps");
+    const contador = document.getElementById("step-count");
+    const barra = document.getElementById("progress-bar");
+    const feedback = document.getElementById("feedback");
+
+    function escolherProblema(chave) {
+      problemaAtual = chave;
+      concluidos = [];
+      botoesProblema.forEach(function (botao) {
+        botao.setAttribute("aria-pressed", botao.dataset.problem === chave ? "true" : "false");
+      });
+      mostrarChecklist();
+    }
+
+    function mostrarChecklist() {
+      if (!problemaAtual) return;
+
+      const problema = problemas[problemaAtual];
+      titulo.textContent = problema.titulo;
+      descricao.textContent = problema.descricao;
+      passosContainer.innerHTML = "";
+
+      problema.passos.forEach(function (passo, indice) {
+        const etiqueta = document.createElement("label");
+        etiqueta.className = "step" + (concluidos.includes(indice) ? " done" : "");
+        etiqueta.innerHTML =
+          '<input type="checkbox" data-step="' + indice + '"' +
+          (concluidos.includes(indice) ? " checked" : "") + ">" +
+          "<span><strong>" + passo.titulo + "</strong><small>" + passo.detalhe + "</small></span>";
+        passosContainer.appendChild(etiqueta);
+      });
+
+      atualizarProgresso();
+    }
+
+    function atualizarProgresso() {
+      if (!problemaAtual) return;
+      const total = problemas[problemaAtual].passos.length;
+      const quantidade = concluidos.length;
+      contador.textContent = quantidade + " de " + total + " concluídas";
+      barra.style.width = (quantidade / total * 100) + "%";
+
+      if (quantidade === total) {
+        feedback.innerHTML = "<strong>Checklist concluído</strong>Se o problema continuar, registre as mensagens de erro e peça uma avaliação técnica. Estas etapas são verificações iniciais, não um diagnóstico definitivo.";
+      } else {
+        feedback.innerHTML = "<strong>Continue com calma</strong>Marque cada item depois de verificar. Se algo parecer inseguro, não prossiga.";
+      }
+    }
+
+    botoesProblema.forEach(function (botao) {
+      botao.addEventListener("click", function () {
+        escolherProblema(botao.dataset.problem);
+      });
+    });
+
+    passosContainer.addEventListener("change", function (evento) {
+      if (!evento.target.matches("[data-step]")) return;
+      const indice = Number(evento.target.dataset.step);
+
+      if (evento.target.checked && !concluidos.includes(indice)) {
+        concluidos.push(indice);
+      } else {
+        concluidos = concluidos.filter(function (valor) {
+          return valor !== indice;
+        });
+      }
+
+      mostrarChecklist();
+    });
+
+    document.getElementById("reset").addEventListener("click", function () {
+      concluidos = [];
+      if (problemaAtual) mostrarChecklist();
+    });
+
+    document.getElementById("finish").addEventListener("click", function () {
+      if (!problemaAtual) {
+        feedback.innerHTML = "<strong>Escolha um problema primeiro</strong>Selecione uma das quatro opções acima para começar.";
+        return;
+      }
+
+      const total = problemas[problemaAtual].passos.length;
+      if (concluidos.length === total) {
+        feedback.innerHTML = "<strong>Checklist concluído</strong>Se a falha continua, anote o que aconteceu e procure o próximo passo de diagnóstico.";
+      } else {
+        feedback.innerHTML = "<strong>Ainda faltam verificações</strong>Você marcou " + concluidos.length + " de " + total + " itens. Continue apenas com os testes que forem seguros.";
+      }
+    });
+  </script>
+</body>
+</html>
