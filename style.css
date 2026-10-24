@@ -50,3 +50,24 @@ button,a{-webkit-tap-highlight-color:transparent}
 @media(max-width:900px){.hero{grid-template-columns:1fr;gap:25px;padding-top:60px}.hero-art{min-height:295px}.feature-grid{grid-template-columns:1fr}.about-columns{gap:25px}.contact-section{grid-template-columns:1fr}.resume-page{margin:18px}.resume-grid{grid-template-columns:1fr}.resume-sidebar{order:-1}}
 @media(max-width:640px){.site-header{height:auto;min-height:70px;padding:16px 20px;align-items:flex-start}.site-header nav{justify-content:flex-end;flex-wrap:wrap;gap:10px 14px;font-size:.78rem}.site-header nav>a:nth-child(2),.site-header nav>a:nth-child(4){display:none}.site-header .brand{padding-top:4px}.hero{padding:54px 22px}.hero h1{font-size:2.6rem}.hero-meta{gap:12px 18px}.section{padding:62px 22px}.about-columns,.project-grid{grid-template-columns:1fr}.section-heading h2{font-size:2rem}.feature-card,.project-card{padding:22px}.timeline-item{grid-template-columns:1fr;gap:6px}.contact-section{padding:58px 22px}.site-footer{align-items:flex-start;flex-wrap:wrap;gap:10px 22px}.page-hero{padding:58px 22px 35px}.certificate-group{grid-template-columns:42px 1fr;gap:14px}.group-icon{width:40px;height:40px}.certificate-list{grid-template-columns:1fr}.resume-page{margin:10px;padding:22px 18px}.resume-topline{align-items:flex-start;flex-direction:column}.resume-heading h1{font-size:2.1rem}.resume-contact{flex-direction:column;gap:8px}.entry-head{align-items:flex-start;flex-direction:column;gap:2px}.resume-bottom{align-items:flex-start;flex-direction:column}.resume-nav nav>a{display:inline!important}}
 @media print{.site-header,.resume-topline,.resume-bottom,.site-footer{display:none!important}.resume-body{background:white}.resume-page{margin:0;padding:0;box-shadow:none;max-width:none}.resume-grid{gap:23px}.resume-sidebar{background:#f5f7f7;-webkit-print-color-adjust:exact;print-color-adjust:exact}.resume-heading{padding-top:0}.resume-section{break-inside:avoid}}
+
+/* Destaque dos projetos e acesso aos trabalhos complementares */
+.featured-grid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+.featured-grid .project-card{min-height:420px}
+.project-preview{width:100%;height:122px;display:flex;overflow:hidden;background:#102a43;border-radius:9px;margin:17px 0 2px;border:1px solid #24435a;box-shadow:0 8px 18px rgba(16,42,67,.12)}
+.mini-sidebar{width:26px;background:#0b172a;display:grid;align-content:start;gap:9px;padding:15px 8px}
+.mini-sidebar span{width:9px;height:6px;background:#477267;border-radius:2px}.mini-sidebar span:first-child{background:#2dd4bf;width:11px}
+.mini-main{flex:1;padding:15px 13px;background:linear-gradient(135deg,#f8fbfc,#eef7f5)}
+.mini-caption{font:800 7px Manrope,sans-serif;letter-spacing:.1em;color:#608478}
+.mini-stats{display:flex;gap:7px;margin:12px 0}.mini-stats i{height:27px;flex:1;background:white;border:1px solid #e3eceb;border-radius:5px;position:relative}
+.mini-stats i:after{content:"";position:absolute;left:6px;top:6px;width:13px;height:4px;background:#b5e9db;border-radius:2px}.mini-lines{display:grid;gap:5px}.mini-lines b{height:4px;width:91%;background:#dbe6e8;border-radius:4px}.mini-lines b:nth-child(2){width:73%}.mini-lines b:nth-child(3){width:82%}
+.project-nexodesk .project-number{color:#0f8274}
+.featured-grid .project-card .text-link{margin-top:12px}
+.secondary-project-heading{margin:52px 0 18px}.secondary-project-heading h3{margin:0;font:800 clamp(1.3rem,2.3vw,1.8rem) Manrope,sans-serif;letter-spacing:-.04em;color:var(--ink)}
+.secondary-projects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.secondary-project{display:flex;align-items:center;gap:13px;border:1px solid var(--line);border-radius:11px;padding:16px;background:white;transition:transform .18s,border-color .18s,box-shadow .18s}
+.secondary-project:hover{transform:translateY(-2px);border-color:#b8e7dc;box-shadow:0 10px 24px rgba(16,42,67,.06)}
+.secondary-icon{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;border-radius:10px;background:#e6f8f3;color:var(--teal);font-size:1rem}
+.secondary-project>span:nth-child(2){display:grid;gap:4px;min-width:0}.secondary-project strong{font:800 .91rem Manrope,sans-serif;color:var(--ink)}.secondary-project small{font-size:.78rem;line-height:1.6;color:var(--muted)}.secondary-arrow{margin-left:auto;color:#8da0af;font-size:.78rem;flex-shrink:0}
+@media(max-width:1050px){.featured-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.featured-grid .project-card:first-child{grid-column:1/-1}.featured-grid .project-card{min-height:360px}}
+@media(max-width:650px){.featured-grid,.secondary-projects{grid-template-columns:1fr}.featured-grid .project-card:first-child{grid-column:auto}.featured-grid .project-card{min-height:300px}.secondary-project{padding:14px}.secondary-project-heading{margin-top:38px}}
