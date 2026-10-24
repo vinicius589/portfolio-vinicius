@@ -10,12 +10,12 @@ Sou Técnico em Informática pelo SENAC Minas e estudante de Ciência da Computa
 
 ## Projetos em destaque
 
-### [CheckTI — Guia de primeiros testes](https://vinicius589.github.io/portfolio-vinicius/projetos/checkti/)
+### [CheckTI — Guia de primeiros testes](https://vinicius589.github.io/CheckTI/)
 Checklist interativo para praticar HTML, CSS e JavaScript com verificações iniciais de problemas comuns de computador.
 
 **Tecnologias:** HTML, CSS e JavaScript básico.
 
-[Código-fonte e instruções](projetos/checkti/)
+[Código-fonte e instruções](https://github.com/vinicius589/CheckTI)
 
 ### [Consultor Inteligente de Carreiras em TI](https://github.com/vinicius589/consultor-inteligente-carreiras-ti)
 Sistema especialista acadêmico que recomenda trilhas de carreira com regras. O repositório inclui testes automatizados, documentação técnica e quatro cenários de validação.
