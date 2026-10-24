@@ -53,6 +53,12 @@
     .panel h2 { margin: 0 0 7px; color: var(--navy); font-size: 19px; }
     .hint { margin: 0 0 18px; color: var(--muted); font-size: 13px; }
 
+    .describe-form { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin: 15px 0 20px; }
+    .describe-form label { color: var(--navy); font-size: 13px; font-weight: 700; }
+    .describe-form textarea { width: 100%; min-height: 94px; padding: 12px 13px; resize: vertical; border: 1px solid var(--line); border-radius: 9px; color: var(--text); background: #fff; font: inherit; font-size: 14px; }
+    .describe-form textarea:focus { outline: 2px solid #b7e5da; border-color: var(--teal); }
+    .input-result { margin: 0; color: var(--teal); font-size: 13px; }
+    .quick-start-label { margin-bottom: 12px; }
     .problem-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
     .problem {
       min-height: 142px; padding: 16px 13px; text-align: left;
@@ -122,11 +128,18 @@
   <main>
     <p class="eyebrow">SUPORTE TÉCNICO · PASSO A PASSO</p>
     <h1>Vamos começar pelo básico.</h1>
-    <p class="intro">Escolha o problema e siga uma lista simples de verificações. A ideia é ajudar a organizar os primeiros testes antes de decidir o próximo passo.</p>
+    <p class="intro">Descreva com suas palavras o que está acontecendo. O CheckTI identifica termos relacionados ao sintoma e organiza uma checklist inicial de verificações seguras.</p>
 
     <section class="panel" aria-labelledby="problem-title">
-      <h2 id="problem-title">O que está acontecendo?</h2>
-      <p class="hint">Selecione uma opção para ver as verificações iniciais.</p>
+      <h2 id="problem-title">Qual é o problema?</h2>
+      <p class="hint">Explique o sintoma principal. Quanto mais clara a descrição, melhor a seleção inicial.</p>
+      <form class="describe-form" id="problem-form">
+        <label for="problem-description">Descreva o que está acontecendo</label>
+        <textarea id="problem-description" maxlength="500" placeholder="Ex.: O computador liga, mas a tela fica preta."></textarea>
+        <button type="submit" class="btn btn-primary">Montar checklist</button>
+        <p class="input-result" id="input-result" role="status" aria-live="polite"></p>
+      </form>
+      <p class="hint quick-start-label">Ou escolha um caso comum:</p>
       <div class="problem-grid">
         <button class="problem" type="button" data-problem="power" aria-pressed="false">
           <span class="problem-icon" aria-hidden="true">🔌</span>
@@ -182,46 +195,86 @@
   </main>
 
   <script>
-    // Cada problema tem uma lista curta de verificações iniciais.
+    // As orientacoes ficam cadastradas aqui. A descricao digitada e comparada com palavras-chave.
     const problemas = {
       power: {
-        titulo: "O computador não liga",
-        descricao: "Confira primeiro a alimentação elétrica, sem abrir o equipamento.",
+        titulo: "O computador nao liga",
+        descricao: "Confira a alimentacao eletrica primeiro, sem abrir o equipamento.",
+        palavras: ["nao liga", "nao acende", "sem energia", "nao da sinal", "nao inicia", "computador morto"],
         passos: [
-          { titulo: "Confira o cabo de energia", detalhe: "Veja se o cabo está encaixado corretamente no computador e na tomada." },
-          { titulo: "Teste a tomada", detalhe: "Se for seguro, teste a tomada com outro aparelho que você sabe que funciona." },
-          { titulo: "Observe as luzes e os sons", detalhe: "Anote se alguma luz acende, se as ventoinhas giram ou se há algum sinal ao apertar o botão." },
-          { titulo: "Se for notebook, confira o carregador", detalhe: "Verifique se o carregador está bem conectado e se há algum indicador de carga." }
+          { titulo: "Confira o cabo de energia", detalhe: "Veja se o cabo esta bem encaixado no computador e na tomada." },
+          { titulo: "Teste a tomada", detalhe: "Se for seguro, teste a tomada com outro aparelho que voce sabe que funciona." },
+          { titulo: "Observe luzes e sons", detalhe: "Anote se alguma luz acende, se as ventoinhas giram ou se ha algum sinal ao apertar o botao." },
+          { titulo: "Se for notebook, confira o carregador", detalhe: "Veja se esta bem conectado e se ha indicador de carga." }
         ]
       },
       slow: {
-        titulo: "O computador está lento",
-        descricao: "Comece com verificações simples antes de instalar ou remover qualquer coisa.",
+        titulo: "O computador esta lento ou travando",
+        descricao: "Comece por verificacoes simples antes de instalar ou remover programas.",
+        palavras: ["lento", "lentidao", "travando", "trava", "congelando", "congela", "demora para abrir", "demorando"],
         passos: [
-          { titulo: "Reinicie o computador", detalhe: "Salve seus arquivos e reinicie para encerrar processos que possam estar travados." },
-          { titulo: "Confira o espaço livre", detalhe: "Veja se a unidade do sistema tem espaço disponível." },
-          { titulo: "Observe os programas abertos", detalhe: "Feche apenas os aplicativos que você reconhece e não está usando." },
-          { titulo: "Anote quando a lentidão acontece", detalhe: "Por exemplo: ao iniciar, abrir um programa ou acessar a internet." }
+          { titulo: "Salve seus arquivos e reinicie", detalhe: "Reiniciar pode encerrar processos que ficaram travados." },
+          { titulo: "Confira o espaco livre", detalhe: "Veja se a unidade do sistema tem espaco disponivel." },
+          { titulo: "Observe os programas abertos", detalhe: "Feche apenas os aplicativos que voce reconhece e nao esta usando." },
+          { titulo: "Anote quando a lentidao aparece", detalhe: "Por exemplo: ao iniciar o Windows, abrir um programa ou navegar." }
         ]
       },
       network: {
-        titulo: "O computador está sem internet",
-        descricao: "Descubra se o problema está só neste computador ou em outros dispositivos também.",
+        titulo: "O computador esta sem internet",
+        descricao: "Tente descobrir se a falha esta so neste computador ou em outros dispositivos tambem.",
+        palavras: ["sem internet", "internet", "wifi", "wi-fi", "wi fi", "roteador", "sem conexao", "conexao de rede"],
         passos: [
-          { titulo: "Confira a conexão", detalhe: "Verifique se o Wi-Fi está ligado ou se o cabo de rede está conectado." },
-          { titulo: "Teste outro site ou aplicativo", detalhe: "Isso ajuda a identificar se a falha ocorre em apenas um serviço." },
-          { titulo: "Compare com outro dispositivo", detalhe: "Se possível, verifique se um celular ou outro computador também está sem conexão." },
-          { titulo: "Observe as luzes do roteador", detalhe: "Anote as luzes ou mensagens de erro. Reinicie o roteador apenas se tiver autorização." }
+          { titulo: "Confira a conexao", detalhe: "Veja se o Wi-Fi esta ligado ou se o cabo de rede esta conectado." },
+          { titulo: "Teste outro site ou aplicativo", detalhe: "Isso ajuda a identificar se a falha ocorre em apenas um servico." },
+          { titulo: "Compare com outro dispositivo", detalhe: "Se possivel, confira se um celular ou outro computador tambem esta sem conexao." },
+          { titulo: "Observe as luzes do roteador", detalhe: "Anote as luzes ou mensagens de erro. Reinicie o roteador apenas se tiver autorizacao." }
         ]
       },
       sound: {
-        titulo: "O computador está sem áudio",
-        descricao: "Confira o volume e o dispositivo selecionado antes de alterar configurações avançadas.",
+        titulo: "O computador esta sem audio",
+        descricao: "Confira o volume e o dispositivo selecionado antes de alterar configuracoes avancadas.",
+        palavras: ["sem audio", "audio", "sem som", "som nao sai", "microfone", "fone sem som", "headset"],
         passos: [
-          { titulo: "Confira o volume", detalhe: "Veja se o sistema e o aplicativo não estão no mudo." },
-          { titulo: "Confira a saída de áudio", detalhe: "Selecione o alto-falante ou fone correto nas configurações de som." },
-          { titulo: "Confira a conexão do fone ou caixa", detalhe: "Se usar um dispositivo externo, confirme se está conectado e ligado." },
-          { titulo: "Teste outro áudio", detalhe: "Use outro vídeo ou arquivo para conferir se o problema não está no conteúdo original." }
+          { titulo: "Confira o volume", detalhe: "Veja se o sistema e o aplicativo nao estao no mudo." },
+          { titulo: "Confira a saida de audio", detalhe: "Selecione o alto-falante ou fone correto nas configuracoes de som." },
+          { titulo: "Confira o fone ou a caixa de som", detalhe: "Se usar um dispositivo externo, confirme se esta conectado e ligado." },
+          { titulo: "Teste outro audio", detalhe: "Use outro video ou arquivo para conferir se o problema nao esta no conteudo original." }
+        ]
+      },
+      display: {
+        titulo: "O computador liga, mas nao aparece imagem",
+        descricao: "Confira o monitor e os cabos externos antes de pensar em defeitos internos.",
+        palavras: ["sem imagem", "tela preta", "nao aparece imagem", "nao da video", "sem video", "monitor sem sinal", "nao aparece nada na tela", "liga mas nao aparece"],
+        passos: [
+          { titulo: "Confira se o monitor esta ligado", detalhe: "Veja se a luz de energia do monitor acende e se ele mostra alguma mensagem." },
+          { titulo: "Confira o cabo de video", detalhe: "Com cuidado, verifique se HDMI ou DisplayPort esta conectado nas duas pontas." },
+          { titulo: "Selecione a entrada correta", detalhe: "No menu do monitor, confira se a entrada selecionada corresponde ao cabo usado." },
+          { titulo: "Observe os sinais do computador", detalhe: "Anote se ventoinhas e luzes ligam ou se aparecem bipes ou mensagens." },
+          { titulo: "Se continuar sem imagem, pare por aqui", detalhe: "Nao mexa em componentes internos com o equipamento ligado. Procure avaliacao tecnica se necessario." }
+        ]
+      },
+      heat: {
+        titulo: "O computador esta esquentando ou desligando sozinho",
+        descricao: "Priorize a seguranca e evite forcar o computador enquanto estiver muito quente.",
+        palavras: ["esquentando", "esquenta", "muito quente", "superaquecendo", "superaquecimento", "desliga sozinho", "ventoinha", "cooler", "temperatura alta"],
+        passos: [
+          { titulo: "Interrompa tarefas pesadas", detalhe: "Se estiver muito quente, salve o que for possivel e desligue o equipamento." },
+          { titulo: "Deixe o computador esfriar", detalhe: "Nao cubra as saidas de ar e mantenha o aparelho em uma superficie firme." },
+          { titulo: "Confira as entradas de ar externas", detalhe: "Veja se poeira ou objetos estao bloqueando as aberturas, sem desmontar o equipamento." },
+          { titulo: "Observe ruideos ou ventoinhas paradas", detalhe: "Anote barulhos incomuns ou sinais de que a ventilacao nao esta funcionando." },
+          { titulo: "Procure assistencia se persistir", detalhe: "Cheiro de queimado, desligamentos repetidos ou calor excessivo pedem avaliacao tecnica." }
+        ]
+      },
+      peripherals: {
+        titulo: "O teclado, mouse ou touchpad nao funciona",
+        descricao: "Confira conexoes e tente isolar se a falha esta no acessorio ou no computador.",
+        palavras: ["teclado", "mouse", "touchpad", "cursor nao funciona", "nao consigo digitar", "usb nao funciona"],
+        passos: [
+          { titulo: "Confira a conexao", detalhe: "Verifique se o cabo USB ou o receptor sem fio esta encaixado." },
+          { titulo: "Confira a bateria", detalhe: "Se for sem fio, veja se precisa carregar ou trocar a pilha." },
+          { titulo: "Teste outra porta USB", detalhe: "Se for seguro e possivel, conecte o acessorio em outra porta." },
+          { titulo: "Teste outro acessorio, se tiver", detalhe: "Isso ajuda a descobrir se o problema acompanha o dispositivo." },
+          { titulo: "Reinicie o computador", detalhe: "Salve seus arquivos antes de reiniciar e confira se o acessorio voltou a funcionar." }
         ]
       }
     };
@@ -236,6 +289,39 @@
     const contador = document.getElementById("step-count");
     const barra = document.getElementById("progress-bar");
     const feedback = document.getElementById("feedback");
+    const formularioProblema = document.getElementById("problem-form");
+    const descricaoEntrada = document.getElementById("problem-description");
+    const resultadoEntrada = document.getElementById("input-result");
+
+    function normalizarTexto(texto) {
+      return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    function identificarProblema(texto) {
+      const descricaoNormalizada = normalizarTexto(texto);
+      const ordem = ["display", "heat", "power", "network", "sound", "peripherals", "slow"];
+
+      for (let indice = 0; indice < ordem.length; indice++) {
+        const chave = ordem[indice];
+        const palavras = problemas[chave].palavras;
+
+        for (let posicao = 0; posicao < palavras.length; posicao++) {
+          if (descricaoNormalizada.includes(normalizarTexto(palavras[posicao]))) {
+            return chave;
+          }
+        }
+      }
+
+      return null;
+    }
+
+    function mostrarMensagem(tituloMensagem, textoMensagem) {
+      feedback.textContent = "";
+      const tituloFeedback = document.createElement("strong");
+      tituloFeedback.textContent = tituloMensagem;
+      feedback.appendChild(tituloFeedback);
+      feedback.appendChild(document.createTextNode(textoMensagem));
+    }
 
     function escolherProblema(chave) {
       problemaAtual = chave;
@@ -252,15 +338,24 @@
       const problema = problemas[problemaAtual];
       titulo.textContent = problema.titulo;
       descricao.textContent = problema.descricao;
-      passosContainer.innerHTML = "";
+      passosContainer.textContent = "";
 
       problema.passos.forEach(function (passo, indice) {
         const etiqueta = document.createElement("label");
         etiqueta.className = "step" + (concluidos.includes(indice) ? " done" : "");
-        etiqueta.innerHTML =
-          '<input type="checkbox" data-step="' + indice + '"' +
-          (concluidos.includes(indice) ? " checked" : "") + ">" +
-          "<span><strong>" + passo.titulo + "</strong><small>" + passo.detalhe + "</small></span>";
+        const caixa = document.createElement("input");
+        caixa.type = "checkbox";
+        caixa.dataset.step = indice;
+        caixa.checked = concluidos.includes(indice);
+        const conteudo = document.createElement("span");
+        const tituloPasso = document.createElement("strong");
+        tituloPasso.textContent = passo.titulo;
+        const detalhePasso = document.createElement("small");
+        detalhePasso.textContent = passo.detalhe;
+        conteudo.appendChild(tituloPasso);
+        conteudo.appendChild(detalhePasso);
+        etiqueta.appendChild(caixa);
+        etiqueta.appendChild(conteudo);
         passosContainer.appendChild(etiqueta);
       });
 
@@ -271,18 +366,40 @@
       if (!problemaAtual) return;
       const total = problemas[problemaAtual].passos.length;
       const quantidade = concluidos.length;
-      contador.textContent = quantidade + " de " + total + " concluídas";
+      contador.textContent = quantidade + " de " + total + " concluidas";
       barra.style.width = (quantidade / total * 100) + "%";
 
       if (quantidade === total) {
-        feedback.innerHTML = "<strong>Checklist concluído</strong>Se o problema continuar, registre as mensagens de erro e peça uma avaliação técnica. Estas etapas são verificações iniciais, não um diagnóstico definitivo.";
+        mostrarMensagem("Checklist concluida", "Se o problema continuar, anote o que aconteceu e procure uma avaliacao tecnica. Estas etapas sao verificacoes iniciais, nao um diagnostico definitivo.");
       } else {
-        feedback.innerHTML = "<strong>Continue com calma</strong>Marque cada item depois de verificar. Se algo parecer inseguro, não prossiga.";
+        mostrarMensagem("Continue com calma", "Marque cada item depois de verificar. Se algo parecer inseguro, nao prossiga.");
       }
     }
 
+    formularioProblema.addEventListener("submit", function (evento) {
+      evento.preventDefault();
+      const textoInformado = descricaoEntrada.value.trim();
+
+      if (!textoInformado) {
+        resultadoEntrada.textContent = "Descreva o sintoma principal para montar a checklist.";
+        descricaoEntrada.focus();
+        return;
+      }
+
+      const chaveEncontrada = identificarProblema(textoInformado);
+      if (!chaveEncontrada) {
+        resultadoEntrada.textContent = "Ainda nao identifiquei esse problema com seguranca. Tente descrever o sintoma com outras palavras ou escolha um dos casos comuns abaixo.";
+        mostrarMensagem("Preciso de mais detalhes", "Por enquanto, nao montei uma checklist para evitar sugerir passos que talvez nao se apliquem ao problema.");
+        return;
+      }
+
+      resultadoEntrada.textContent = "Identifiquei como: " + problemas[chaveEncontrada].titulo + ". A checklist inicial apareceu abaixo.";
+      escolherProblema(chaveEncontrada);
+    });
+
     botoesProblema.forEach(function (botao) {
       botao.addEventListener("click", function () {
+        resultadoEntrada.textContent = "";
         escolherProblema(botao.dataset.problem);
       });
     });
@@ -304,20 +421,24 @@
 
     document.getElementById("reset").addEventListener("click", function () {
       concluidos = [];
-      if (problemaAtual) mostrarChecklist();
+      if (problemaAtual) {
+        mostrarChecklist();
+      } else {
+        mostrarMensagem("Nada para limpar", "Descreva um problema ou selecione uma opcao para comecar.");
+      }
     });
 
     document.getElementById("finish").addEventListener("click", function () {
       if (!problemaAtual) {
-        feedback.innerHTML = "<strong>Escolha um problema primeiro</strong>Selecione uma das quatro opções acima para começar.";
+        mostrarMensagem("Escolha um problema primeiro", "Descreva o sintoma acima ou selecione uma das opcoes comuns.");
         return;
       }
 
       const total = problemas[problemaAtual].passos.length;
       if (concluidos.length === total) {
-        feedback.innerHTML = "<strong>Checklist concluído</strong>Se a falha continua, anote o que aconteceu e procure o próximo passo de diagnóstico.";
+        mostrarMensagem("Checklist concluida", "Se a falha continua, anote os resultados e procure uma avaliacao tecnica.");
       } else {
-        feedback.innerHTML = "<strong>Ainda faltam verificações</strong>Você marcou " + concluidos.length + " de " + total + " itens. Continue apenas com os testes que forem seguros.";
+        mostrarMensagem("Ainda faltam verificacoes", "Voce marcou " + concluidos.length + " de " + total + " itens. Continue apenas com os testes seguros.");
       }
     });
   </script>
