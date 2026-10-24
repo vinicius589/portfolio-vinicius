@@ -10,12 +10,12 @@ Sou Técnico em Informática pelo SENAC Minas e estudante de Ciência da Computa
 
 ## Projetos em destaque
 
-### [NexoDesk — Central de Suporte TI](https://vinicius589.github.io/portfolio-vinicius/projetos/nexodesk/)
-Protótipo web interativo para cadastro e acompanhamento de chamados, filtros, prioridade, atualização de status, inventário demonstrativo e indicadores de atendimento.
+### [CheckTI — Guia de primeiros testes](https://vinicius589.github.io/portfolio-vinicius/projetos/checkti/)
+Checklist interativo para praticar HTML, CSS e JavaScript com verificações iniciais de problemas comuns de computador.
 
-**Tecnologias:** HTML, CSS, JavaScript, LocalStorage, CSV e JSON.
+**Tecnologias:** HTML, CSS e JavaScript básico.
 
-[Código-fonte e documentação](projetos/nexodesk/)
+[Código-fonte e instruções](projetos/checkti/)
 
 ### [Consultor Inteligente de Carreiras em TI](https://github.com/vinicius589/consultor-inteligente-carreiras-ti)
 Sistema especialista acadêmico que recomenda trilhas de carreira com regras. O repositório inclui testes automatizados, documentação técnica e quatro cenários de validação.
