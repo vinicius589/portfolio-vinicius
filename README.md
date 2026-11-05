@@ -10,12 +10,10 @@ Sou Técnico em Informática pelo SENAC Minas e estudante de Ciência da Computa
 
 ## Projetos em destaque
 
-### [CheckTI — Guia de primeiros testes](https://vinicius589.github.io/CheckTI/)
-Checklist interativo para praticar HTML, CSS e JavaScript com verificações iniciais de problemas comuns de computador.
+### [Caracol Robótico e Ônibus de Brinquedo](https://github.com/vinicius589/portfolio-vinicius/tree/main/projetos/computacao-grafica-caracol-onibus)
+Cena tridimensional acadêmica em que um caracol robótico chega a um ponto de ônibus, sinaliza com as antenas e interage com a chegada, a porta e a partida do veículo.
 
-**Tecnologias:** HTML, CSS e JavaScript básico.
-
-[Código-fonte e instruções](https://github.com/vinicius589/CheckTI)
+**Tecnologias:** Python, Pygame, OpenGL, framework Py3D, texturas, iluminação Phong e shadow mapping.
 
 ### [Consultor Inteligente de Carreiras em TI](https://github.com/vinicius589/consultor-inteligente-carreiras-ti)
 Sistema especialista acadêmico que recomenda trilhas de carreira com regras. O repositório inclui testes automatizados, documentação técnica e quatro cenários de validação.
