@@ -14,7 +14,8 @@ A interação é coordenada por etapas: o ônibus só abre a porta depois que os
 - `animacao.py`: posições e etapas da animação controladas pelo tempo decorrido.
 - `assets/asfalto.png`: textura de imagem aplicada ao chão.
 - `requirements.txt`: dependências Python.
-- `instalar_framework.py`: instalação da pasta `py3d` a partir da revisão indicada do repositório de exemplos.
+- `py3d/`: componentes do framework e shaders usados na aplicação, incluídos nesta pasta do projeto.
+- `instalar_framework.py`: instala a pasta `py3d` quando ela ainda não estiver disponível.
 - `tests/`: testes automatizados da animação e do instalador.
 - `GUIA_CODIGO.md`: explicação dos principais trechos para estudo.
 - `ROTEIRO_APRESENTACAO.md`: roteiro de demonstração.
@@ -23,7 +24,7 @@ A interação é coordenada por etapas: o ônibus só abre a porta depois que os
 
 Requer Python 3.11 e conexão com a internet na primeira instalação.
 
-1. Baixe esta pasta pelo GitHub (botão **Code > Download ZIP**) ou clone o portfólio.
+1. Baixe o repositório do portfólio pelo GitHub (**Code > Download ZIP**) ou clone o portfólio.
 2. Entre na pasta `projetos/computacao-grafica-caracol-onibus`.
 3. Execute `INICIAR.bat`.
 
